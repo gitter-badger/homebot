@@ -7,7 +7,6 @@ module.exports = {
   database: {
     url: `mongodb://${host}/node-express-skeleton-test`,
     properties: {
-      useMongoClient: true
     }
   },
   key: {
