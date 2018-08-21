@@ -18,9 +18,9 @@ const UserSchema = new Schema({
     enum : ['user', 'admin'],
     default: 'user'
   },
-  items : [{
+  devices : [{
     type: Schema.Types.ObjectId,
-    ref: 'Item'
+    ref: 'Device'
   }]
 });
 
@@ -39,7 +39,7 @@ UserSchema.pre('save', function(next) {
 
     this.password = hash;
     next();
-  });
+  }.bind(this));
 });
 
 UserSchema.methods.getTokenData = function() {
@@ -57,7 +57,7 @@ UserSchema.methods.verifyPassword = function(candidatePassword, callback) {
 };
 
 UserSchema.methods.equals = function(user) {
-  return this._id == user._id;
+  return user._id.toString()  == this._id.toString();
 };
 
 UserSchema.methods.canRead = function(object) {
