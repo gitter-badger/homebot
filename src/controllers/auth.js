@@ -19,7 +19,7 @@ exports.authenticate = function(req, res) {
       user.verifyPassword(req.body.password, function(err, isMatch) {
         if (isMatch) {
           const token = jwt.sign(user.getTokenData(), privateKey, {
-            expiresIn: tokenExpireInMinutes
+            expiresIn: tokenExpireInMinutes * 60
           });
 
           res.json({

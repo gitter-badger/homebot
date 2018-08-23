@@ -9,12 +9,6 @@ const DeviceSchema = new Schema({
   image:{
     origUrl: String,
     alisa_id: String
-  },
-  payload: {},  
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
   }
 });
 

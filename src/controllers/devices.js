@@ -5,52 +5,62 @@ import pagination from '../helpers/pagination';
 
 const Device = mongoose.model('Device');
 
-exports.list = function(req, res) {
+exports.list = async function(req, res) {
   if (!req.currentUser.canRead(req.locals.user)) return response.sendForbidden(res);
-  const query = Object.assign({ owner: req.params.userId }, request.getFilteringOptions(req, ['name']));
-  Device.paginate(query, request.getRequestOptions(req), function(err, result) {
-    if (err) return response.sendNotFound(res);
+
+  const query = Object.assign(request.getFilteringOptions(req, ['name']));
+  try {
+    let result = await Device.paginate(query, request.getRequestOptions(req));
     pagination.setPaginationHeaders(res, result);
     res.json(result.docs);
-  });
+  } catch(err) {
+    return response.sendNotFound(res);
+  };
 };
 
-exports.create = function(req, res) {
-    const user = req.locals.user;
-    if (!req.currentUser.canEdit(user)) return response.sendForbidden(res);
-    const device = new Device(req.body);
-    device.owner = user;
-    device.save(function(err, device) {
-      if (err) return response.sendBadRequest(res, err);
+exports.create = async function(req, res) {
+  const user = req.locals.user;
+  if (!req.currentUser.canEdit(user)) return response.sendForbidden(res);
+  try {
+    let device = new Device(req.body);
+    device = await device.save();
+    user.devices.push(device);
+    await user.save();
 
-      user.devices.push(device);
-      user.save(function(err, user) {
-        if (err) return response.sendBadRequest(res, err);
-        response.sendCreated(res, device);
-      });
-    });
+    return response.sendCreated(res, device);
+  } catch(err) {
+    return response.sendBadRequest(res, err);
+  }
 };
 
-exports.read = function(req, res) {
-  Device.findById(req.params.id, function(err, Device) {
-    if (err) return response.sendNotFound(res);
-    if (!req.currentUser.canRead(Device)) return response.sendForbidden(res);
-    res.json(Device);
-  });
+exports.read = async function(req, res) {
+  try {
+    let device = await Device.findById(req.params.id);
+    if (!req.currentUser.canRead(device)) return response.sendForbidden(res);
+    res.json(device);
+  } catch(err){
+    return response.sendNotFound(res);
+  };
 };
 
-exports.update = function(req, res) {
-  Device.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, function (err, Device) {
-    if (err) return response.sendBadRequest(res, err);
-    if (!req.currentUser.canEdit(Device)) return response.sendForbidden(res);
-    res.json(Device);
-  });
+exports.update = async function(req, res) {
+  try {
+    let device = await Device.findById(req.params.id);
+    if (!req.currentUser.canEdit(device)) return response.sendForbidden(res);
+    device = await Device.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    res.json(device)
+  } catch(err){
+      response.sendBadRequest(res, err);
+    };
 };
 
-exports.delete = function(req, res) {
-  Device.remove({ _id: req.params.id }, function(err, Device) {
-    if (err) return response.sendNotFound(res);
-    if (!req.currentUser.canEdit(Device)) return response.sendForbidden(res);
+exports.delete = async function(req, res) {
+  try {
+    let device = await Device.findById(req.params.id);
+    if (!req.currentUser.canEdit(device)) return response.sendForbidden(res);
+    await Device.findByIdAndRemove(req.params.id);
     res.json({ message: 'Device successfully deleted' });
-  });
+  } catch(err){
+    return response.sendNotFound(res);
+  }
 };
