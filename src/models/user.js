@@ -57,18 +57,13 @@ UserSchema.methods.verifyPassword = function(candidatePassword, callback) {
 };
 
 UserSchema.methods.equals = function(user) {
-  // console.log(user)
-  // console.log(!user)
-  // console.log(!user.id)
   if (!user) return false;
   if (!user._id) return false;
-  console.log(user._id.toString()  == this._id.toString())
 
   return user._id.toString()  == this._id.toString();
 };
 
 UserSchema.methods.canRead = function(object) {
-  // console.log(object)
   return this.equals(object) ||
     (this.devices.findIndex(x=> x.toString() === object._id.toString()) !== -1) 
     || this.role == "admin";
