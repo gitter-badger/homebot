@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import jwt from'jsonwebtoken';
 
 import User from './models/user';
-import Item from './models/item';
+import Device from './models/device'
 
 import alice from './modules/alisa';
 import config from 'config';

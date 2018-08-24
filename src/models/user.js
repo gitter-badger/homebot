@@ -18,9 +18,9 @@ const UserSchema = new Schema({
     enum : ['user', 'admin'],
     default: 'user'
   },
-  items : [{
+  devices : [{
     type: Schema.Types.ObjectId,
-    ref: 'Item'
+    ref: 'Device'
   }]
 });
 
@@ -39,7 +39,7 @@ UserSchema.pre('save', function(next) {
 
     this.password = hash;
     next();
-  });
+  }.bind(this));
 });
 
 UserSchema.methods.getTokenData = function() {
@@ -57,17 +57,20 @@ UserSchema.methods.verifyPassword = function(candidatePassword, callback) {
 };
 
 UserSchema.methods.equals = function(user) {
-  return this._id == user._id;
+  if (!user) return false;
+  if (!user._id) return false;
+
+  return user._id.toString()  == this._id.toString();
 };
 
 UserSchema.methods.canRead = function(object) {
   return this.equals(object) ||
-    (object.owner && object.owner == this.id) ||
-    this.role == "admin";
+    (this.devices.findIndex(x=> x.toString() === object._id.toString()) !== -1) 
+    || this.role == "admin";
 };
 
 UserSchema.methods.canEdit = function(object) {
-  return this.canRead(object); // can be extended later
+  return this.canRead(object);
 };
 
 UserSchema.plugin(mongoosePaginate);

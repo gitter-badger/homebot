@@ -7,6 +7,7 @@ module.exports = {
   database: {
     url: `mongodb://${host}/node-express-skeleton-dev`,
     properties: {
+      useNewUrlParser: true
     }
   },
   key: {

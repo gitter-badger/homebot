@@ -10,13 +10,9 @@ const DeviceSchema = new Schema({
   image:{
     origUrl: String,
     alisa_id: String
-  },
-  payload: {},  
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
   }
 });
 
-module.exports = mongoose.model('Item', DeviceSchema);
+DeviceSchema.plugin(mongoosePaginate);
+
+module.exports = mongoose.model('Device', DeviceSchema);
