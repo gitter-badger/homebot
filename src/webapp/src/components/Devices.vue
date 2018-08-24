@@ -9,7 +9,7 @@
           Устройства
         </v-subheader>
         
-        <template v-for="device in $store.state.user.devices">
+        <template v-for="device in this.$store.state.user.devices">
 
           <v-list-tile :key="device._id" ripple @click="click" avatar >
             <v-list-tile-avatar size=50>
@@ -20,15 +20,13 @@
               <v-list-tile-title v-html="device.name"></v-list-tile-title>
               <v-list-tile-sub-title v-html="device.type"></v-list-tile-sub-title>
             </v-list-tile-content>
-
-            <v-btn fab right              
-            small
-            flat
-            ripple
-            >
-              <v-icon>power_settings_new</v-icon>
-            </v-btn>
-
+    
+            <v-list-tile-action>
+              <v-switch right 
+                  :label="device.payload.turn"
+                  v-model="device.payload.turn"
+              ></v-switch>
+            </v-list-tile-action>
           </v-list-tile>
           
         </template>
@@ -48,11 +46,12 @@ export default {
   name: 'Devices',
   data () {
     return {
-      devices: []
     }
   },
-  methods: {
-    click(){}
+  methods:{
+    click: function(){
+
+    }
   }
 }
 </script>
