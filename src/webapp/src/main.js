@@ -22,6 +22,36 @@ const store = new Vuex.Store({
     },
     ch_user(state, data) {
       state.user = data;
+    },
+    ch_device(state, device) {
+      for (let i=0; i<state.user.devices.length; i++) {
+        if (state.user.devices[i]._id == device._id) {
+          Vue.set(state.user.devices, i, device)
+          break;
+        }
+      }
+    }
+  },
+  getters: {
+    userDevices: state => {
+      if (state.user.devices){
+        let devices = []
+        state.user.devices.forEach((x) => {
+          devices.push({
+            _id: x._id,
+            name: x.name,
+            type: x.type,
+            where: x.where,
+            image:{
+              origUrl: x.image.origUrl
+            },
+            payload: {
+              turn: x.payload.turn == 'on' ? true: false
+            }
+          })
+        });
+        return devices
+      }
     }
   }
 });
