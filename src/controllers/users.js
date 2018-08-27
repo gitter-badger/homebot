@@ -52,7 +52,7 @@ exports.delete = async function(req, res) {
     }));
     res.json({ message: 'User successfully deleted' });
   } catch(err) {
-    res.send(err);
+    response.sendBadRequest(res, err);
   }
 };
 
