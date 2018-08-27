@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "export NODE_ENV=dev NODE_CONFIG_DIR=./src/config/ && nodemon -w src --exec \"babel-node src/app.js --presets es2015,stage-0\"",
-    "win_start": "set NODE_ENV=dev&& set NODE_CONFIG_DIR=./src/config/&& nodemon -w src --exec \"babel-node src/app.js --presets es2015,stage-0\"",
+    "win-start": "set NODE_ENV=dev&& set NODE_CONFIG_DIR=./src/config/&& nodemon -w src --exec \"babel-node src/app.js --presets es2015,stage-0\"",
     "test": "export NODE_ENV=test NODE_CONFIG_DIR=./src/config/ && mocha --timeout 10000 --compilers js:babel-core/register ./src/test/*.js ",
-    "populatedb": "babel-node --presets es2015 ./node_modules/pow-mongodb-fixtures/bin/mongofixtures node-express-skeleton-dev ./src/test/fixtures"
+    "populatedb": "babel-node --presets es2015 ./node_modules/pow-mongodb-fixtures/bin/mongofixtures node-express-skeleton-dev ./src/test/fixtures",
   },
   "repository": {
     "type": "git",
@@ -39,6 +39,7 @@
     "mqtt": "^2.18.3",
     "populatedb": "^1.0.0",
     "pow-mongodb-fixtures": "^0.14.0",
+    "swagger-jsdoc": "^3.0.2",
     "yandex-dialogs-sdk": "^1.5.2"
   },
   "devDependencies": {
