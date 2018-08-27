@@ -12,14 +12,26 @@ import config from 'config';
 import db from './db/db';
 import routes from './routes';
 
+import path from 'path';
+import swagger from './helpers/swagger.js';
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
+// FIXME: move to module route
 app.post('/webhookurl', alice);
-app.use('/', routes);
+
+app.use('/api/v1', routes);
+
+// serve swagger
+app.use("/", express.static(path.join(__dirname, '/../public')));
+app.get('/swagger.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swagger.spec);
+});
 
 const port = process.env.PORT || config.server.port;
 app.listen(port);
