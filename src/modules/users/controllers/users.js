@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import response from '../helpers/response';
-import request from '../helpers/request';
-import pagination from '../helpers/pagination';
+import response from '../../../helpers/response';
+import request from '../../../helpers/request';
+import pagination from '../../../helpers/pagination';
 
 const User = mongoose.model('User');
 const Device = mongoose.model('Device');
