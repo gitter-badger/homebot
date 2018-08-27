@@ -2,6 +2,8 @@ const host = process.env.DB_HOST || 'localhost';
 
 module.exports = {
   server: {
+    urlSchema: 'http',
+    host: 'localhost',
     port: 9000
   },
   database: {

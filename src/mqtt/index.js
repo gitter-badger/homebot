@@ -1,5 +1,5 @@
 import mqtt from 'mqtt';
-import config from '../../../../config/dev'
+import config from '../config/dev'
 
 const client = mqtt.connect({
     host: config.mqtt.host,

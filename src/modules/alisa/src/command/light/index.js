@@ -1,6 +1,6 @@
 import { sample } from 'lodash';
 import db from '../../db/index.json';
-import mqtt from '../../mqtt';
+import mqtt from '../../../../../mqtt'
 
 export async function turnOn(ctx) {
   return turn(ctx, {

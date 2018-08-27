@@ -4,6 +4,7 @@ import request from '../helpers/request';
 import pagination from '../helpers/pagination';
 
 const User = mongoose.model('User');
+const Device = mongoose.model('Device');
 
 exports.list = function(req, res) {
   if (req.currentUser.role != 'admin') return response.sendForbidden(res);
@@ -41,12 +42,18 @@ exports.update = function(req, res) {
   });
 };
 
-exports.delete = function(req, res) {
-  User.remove({ _id: req.params.id }, function(err, user) {
-    if (err) return res.send(err);
+exports.delete = async function(req, res) {
+  try {
+    let user = await User.findById(req.params.id);
     if (!req.currentUser.canEdit(user)) return response.sendForbidden(res);
+    await User.findByIdAndRemove(req.params.id);
+    await Promise.all(user.devices.map(device => {
+      return Device.findByIdAndRemove(device)
+    }));
     res.json({ message: 'User successfully deleted' });
-  });
+  } catch(err) {
+    response.sendBadRequest(res, err);
+  }
 };
 
 exports.loadUser = function (req, res, next) {
