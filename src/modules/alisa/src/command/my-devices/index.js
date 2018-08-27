@@ -1,8 +1,11 @@
 import { reply } from 'yandex-dialogs-sdk';
-import db from '../../db/index.json';
+import config from '../../../../../config/dev';
+import axios from 'axios';
 
 export default async function (ctx) {
-  const user = db[0];
+
+  const email = 'user@mail.com'
+  const password = 'password'
   const msg = {
     text: "Ваши устройства",
     card: {
@@ -13,14 +16,27 @@ export default async function (ctx) {
       items: []
     }
   };
-    
-  for (let device of user.user_devices) {
-    msg.card.items.push({
-      image_id: device.image.id,
-      title: device.name
-    });
-  };
-    
-  const replyMsg = reply(msg);
-  return ctx.reply(replyMsg);
+
+  return await axios.post(`${config.server.urlSchema}://${config.server.host}:${config.server.port}` + 
+  `/authenticate`, {
+      email,
+      password
+    })
+  .then(res => {
+    return axios.get(`${config.server.urlSchema}://${config.server.host}:${config.server.port}/users/` + 
+    `${res.data.user._id}/devices`,{
+      headers: {'x-access-token': res.data.token}
+    })
+  })
+  .then(res => {
+    for (let device of res.data) {
+      msg.card.items.push({
+        image_id: device.image.alisa_id,
+        title: device.name
+      });
+    };
+      
+    const replyMsg = reply(msg);
+    return ctx.reply(replyMsg);
+  });
 }
