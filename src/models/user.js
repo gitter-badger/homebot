@@ -64,6 +64,8 @@ UserSchema.methods.equals = function(user) {
 };
 
 UserSchema.methods.canRead = function(object) {
+  if (!object._id) return false;
+
   return this.equals(object) ||
     (this.devices.findIndex(x=> x.toString() === object._id.toString()) !== -1) 
     || this.role == "admin";
