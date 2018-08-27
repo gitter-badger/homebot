@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import response from '../helpers/response';
 import request from '../helpers/request';
 import pagination from '../helpers/pagination';
+import mqtt from '../mqtt';
 
 const Device = mongoose.model('Device');
 
@@ -48,6 +49,10 @@ exports.update = async function(req, res) {
     let device = await Device.findById(req.params.id);
     if (!req.currentUser.canEdit(device)) return response.sendForbidden(res);
     device = await Device.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    mqtt.publish('/alisa', JSON.stringify({
+      deviceId: device._id,
+      turn: device.payload.turn || "off"
+    }));
     res.json(device)
   } catch(err){
       response.sendBadRequest(res, err);

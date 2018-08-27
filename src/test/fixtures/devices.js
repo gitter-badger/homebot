@@ -1,8 +1,8 @@
 import userFixtures from './users';
 import { createObjectId } from 'pow-mongodb-fixtures';
 
-exports.items = {
-  userItem1: {
+exports.devices = {
+  userDevice1: {
     _id: createObjectId('59b50d152d9f6b4110ec0000'),
     type: 'light',
     image:{
@@ -10,9 +10,12 @@ exports.items = {
       alisa_id: '937455/c72c3c5848e4ef9b61d7'      
     },
     name: 'Лампочка Xiaomi YEELIGHT YLDP06YL',
-    where: '^кухн'
+    where: '^кухн',
+    payload:{
+      turn: 'on'
+    }
   },
-  userItem2: {
+  userDevice2: {
     _id: createObjectId('59b50d152d9f6b4110ec0001'),
     type: 'light',
     image:{
@@ -20,9 +23,12 @@ exports.items = {
       alisa_id: '997614/003251359a15b1d266be'      
     },
     name: 'Лампочка Xiaomi Philips zhirui bulb light',
-    where: '^спальн'
+    where: '^спальн',
+    payload:{
+      turn: 'off'
+    }
   },
-  userItem3: {
+  userDevice3: {
     _id: createObjectId('59b50d152d9f6b4110ec0002'),
     type: 'light',
     image:{
@@ -30,6 +36,9 @@ exports.items = {
       alisa_id: '1030494/d3835d4938f3b3d3f6c8'      
     },
     name: 'Лампочка Mixberry E27',
-    where: '^спальн'
+    where: '^спальн',
+    payload:{
+      turn: 'off'
+    }    
   } 
 }

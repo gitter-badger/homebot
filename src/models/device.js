@@ -10,7 +10,8 @@ const DeviceSchema = new Schema({
   image:{
     origUrl: String,
     alisa_id: String
-  }
+  },
+  payload: {}
 });
 
 DeviceSchema.plugin(mongoosePaginate);
