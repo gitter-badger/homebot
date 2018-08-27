@@ -7,7 +7,7 @@ import jwt from'jsonwebtoken';
 import User from './models/user';
 import Device from './models/device'
 
-import alice from './modules/alisa';
+// import alice from './modules/alisa';
 import config from 'config';
 import db from './db/db';
 import routes from './routes';
@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 // FIXME: move to module route
-app.post('/webhookurl', alice);
+// app.post('/webhookurl', alice);
 
 app.use('/api/v1', routes);
 

@@ -1,4 +1,4 @@
-import alice from './src';
+import alice from '../src';
 
 export default async function (req, res) {
   try {
