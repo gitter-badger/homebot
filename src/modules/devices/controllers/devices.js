@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import response from '../../../helpers/response';
 import request from '../../../helpers/request';
 import pagination from '../../../helpers/pagination';
-import mqtt from '../../../mqtt';
+import mqtt from '../../../db/mqtt';
 
 const Device = mongoose.model('Device');
 
