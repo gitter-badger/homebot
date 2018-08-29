@@ -124,24 +124,16 @@
     }),
     created: function() {
       const self = this;
-      this.$http.post(`${config.server.urlSchema}://${config.server.host}:${config.server.port}`+
-      `/authenticate`,{
-        email: 'user@mail.com',
-        password: 'password'
-      }).then(data => {
-        self.user = data.body.user;
-        self.$store.commit('ch_token', data.body.token);
-        
-        return self.$http.get(`${config.server.urlSchema}://${config.server.host}:${config.server.port}`+
-          `/users/${self.user._id}/devices`)
-      }).then(data =>{
-          self.user.devices = data.body;
-          self.$store.commit('ch_user', self.user);
-        }).catch(err => {
-          self.dialog.opened = true;
-          self.dialog.title = 'Error getting the token';
-          self.dialog.text = err;  
-      });
+      this.$http.get(`${config.server.urlSchema}://${config.server.host}:${config.server.port}`+
+      `/api/v1/devices`).then(data => {
+        self.user.devices = data.body;
+        self.$store.commit('ch_user', self.user);
+
+      }).catch(err => {
+        self.dialog.opened = true;
+        self.dialog.title = 'Error getting the token';
+        self.dialog.text = err; 
+      })
     }
   }
 </script>

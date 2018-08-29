@@ -23,9 +23,8 @@
     
             <v-list-tile-action>
               <v-switch right 
-                  :label="device.payload.turn ? 'on': 'off'"
                   v-model="device.payload.turn"
-                  @change="ch_state(device._id, !device.payload.turn)"
+                  @change="ch_state(device._id, device.payload.turn)"
               ></v-switch>
             </v-list-tile-action>
           </v-list-tile>
@@ -60,12 +59,14 @@ export default {
   methods:{
     ch_state: function(deviceId, state){
       const self = this;
+      console.log(state)
       this.$http.put(`${config.server.urlSchema}://${config.server.host}:${config.server.port}`+
-          `/users/${self.$store.state.user._id}/devices/${deviceId}`, {
+          `/api/v1/devices/${deviceId}`, {
             payload:{
               turn: state ? 'on': 'off'
             }
         }).then(data=>{
+          console.log(data)
           self.$store.commit('ch_device', data.body)
         });
     }
