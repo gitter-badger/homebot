@@ -20,13 +20,13 @@ exports.list = async function(req, res) {
 };
 
 exports.create = async function(req, res) {
-  const user = req.locals.user;
+  // const user = req.locals.user;
   //if (!req.currentUser.canEdit(user)) return response.sendForbidden(res);
   try {
     let device = new Device(req.body);
     device = await device.save();
-    user.devices.push(device);
-    await user.save();
+    // user.devices.push(device);
+    // await user.save();
 
     return response.sendCreated(res, device);
   } catch(err) {
