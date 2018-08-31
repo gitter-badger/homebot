@@ -24,7 +24,6 @@ exports.create = async function(req, res) {
   //if (!req.currentUser.canEdit(user)) return response.sendForbidden(res);
   try {
     let device = new Device(req.body);
-    console.log(req.body)
     device = await device.save();
     // user.devices.push(device);
     // await user.save();
