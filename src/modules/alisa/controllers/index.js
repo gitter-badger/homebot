@@ -5,7 +5,6 @@ export default async function (req, res) {
     const jsonAnswer = await alice.handleRequest(req.body);
     res.json(jsonAnswer);
   } catch(err) {
-    console.log(err)
     res.status(400)
        .send('Bad request');
   }
