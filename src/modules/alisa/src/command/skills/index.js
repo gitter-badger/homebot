@@ -1,11 +1,19 @@
-import { button, reply } from 'yandex-dialogs-sdk';
+import { Reply, Markup } from 'yandex-dialogs-sdk';
+import { sample } from 'lodash';
 
-export default function (ctx) {
-  const replyMsg = reply({
-    text: 'Сейчас на нахожуть на этапе разработки, но уже сейчас я могу: ',
-    buttons: [button('Показать ваши устройства.'),
-              button('Включить свет.')]
-  });
+export const matcher = ['Что ты умеешь ?',
+    'Как тобой управлять ?',
+    'Покажи свои команды',
+    'Покажи свои навыки',
+    'Помощь ?'];
 
-  return ctx.reply(replyMsg);
-};
+export function handler (ctx) {	
+
+  return Reply.text(`${sample(['Сейчас я умею', 'Я могу'])} \n` +
+   `показывать ваши устровства, \n` + 
+   `включать или выключать свет, причем или весь или в конкретной комнате`, {
+    buttons: [Markup.button('Показать мои устройства'),
+              Markup.button('Включить свет.'),
+              Markup.button('Выключить свет.')]
+	})
+}

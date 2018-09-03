@@ -1,11 +1,18 @@
-import { button, reply } from 'yandex-dialogs-sdk';
+import { Reply, Markup } from 'yandex-dialogs-sdk';
+import { sample } from 'lodash';
 
-export default function(ctx) {	
-	const replyMsg = reply({
-				text: `Привет! Тебя приветствует Home Bot. \n 
-				       Чем я могу быть полезена ?`,
-        buttons: [button('Что ты умеешь ?')]
-			});
-			
-  return ctx.reply(replyMsg)
+export function matcher (ctx) {
+	return ctx.data.session.new === true;
+}
+
+export function handler (ctx) {	
+
+	return Reply.text(`${sample([
+		'Привет! Тебя приветствует Home Bot.',
+		'Home Bot вас слушает.',
+		'Чем я могу быть для вас полезной ?',	
+	  'Навык Home Bot запущен. Чем помочь ?'])}`, {
+		buttons: [Markup.button('Что ты умеешь ?'), 
+							Markup.button('Показать мои устройства')],
+	})
 }

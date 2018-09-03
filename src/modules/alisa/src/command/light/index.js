@@ -1,30 +1,47 @@
+import { Reply, Markup } from 'yandex-dialogs-sdk';
 import { sample } from 'lodash';
-import mqtt from '../../../../../db/mqtt'
-import config from '../../../../../config/dev';
 import httpRequest from '../../../../../helpers/http'
+import config from '../../../../../config/dev';
+import mqtt from '../../../../../db/mqtt'
 
-export async function turnOn(ctx) {
+export function turnOnMatcher(ctx) { 
+  return ctx.message.search(/^Вкл[а-я]* свет.?$/i) !== -1 
+};
+
+export function turnOffMatcher(ctx) { 
+  return ctx.message.search(/^Выкл[а-я]* свет.?$/i) !== -1 
+}
+
+export function turnOnWhereMatcher(ctx) {
+  return ctx.message.search(/^Вкл[а-я]* свет (на|в) [а-я]+.?$/) !== -1
+}
+
+export function turnOffWhereMatcher(ctx) {
+  return ctx.message.search(/^Выкл[а-я]* свет (на|в) [а-я]+.?$/) !== -1
+}
+
+export async function turnOnHandler(ctx) {
   return turn(ctx, {
     turn: 'on',
     useWhere: false
   });
 };  
 
-export async function turnOff(ctx) {
+export async function turnOffHandler(ctx) {
   return turn(ctx, {
     turn: 'off',
     useWhere: false
   });
 };
 
-export async function turnOnWhere(ctx) {
+export async function turnOnWhereHandler(ctx) {
   return turn(ctx, {
     turn: 'on',
     useWhere: true
   });
 };
 
-export async function turnOffWhere(ctx) {
+export async function turnOffWhereHandler(ctx) {
   return turn(ctx, {
     turn: 'off',
     useWhere: true
@@ -63,19 +80,23 @@ async function turn(ctx, options) {
     };
   
     if (devices.length > 0) {
-      return ctx.reply(`${sample(['Рада стараться', 
+      return Reply.text(`${sample([
+        'Рада стараться', 
         'Все сделала.', 'Готово.'])}`);
     } else {
       if (options.useWhere) {
-      return ctx.reply(`${sample(['Ваших', 'Подключенных'])} устройств в 
-        ${where} не ${sample(['найдено', 'обнаружено'])}.`)
+        return Reply.text(`${sample(['Ваших', 'Подключенных'])} 
+          устройств в ${where} не ${sample(['найдено', 'обнаружено'])}.`, {
+            buttons: [Markup.button('Показать мои устройства')]
+          })
       } else {
-        return ctx.reply(`${sample(['Ваших', 'Подключенных'])} устройств 
-        не ${sample(['найдено', 'обнаружено'])}.`)
+        return Reply.text(`${sample(['Ваших', 'Подключенных'])} 
+          устройств не ${sample(['найдено', 'обнаружено'])}.`, {
+            buttons: [Markup.button('Показать мои устройства')]
+          })
       }
     }
-    
   } catch(err) {
-    return ctx.reply('Server error');
+    return Reply.text('Произошла ошибка. Пожалуйста, повторите запрос.')
   }
 }
