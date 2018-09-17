@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import config from '../../../config/dev'
+// import config from '../../../config/dev'
 import {mapGetters} from 'vuex'
 
 export default {
@@ -58,17 +58,18 @@ export default {
   },
   methods:{
     ch_state: function(deviceId, state){
-      const self = this;
-      console.log(state)
-      this.$http.put(`${config.server.urlSchema}://${config.server.host}:${config.server.port}`+
-          `/api/v1/devices/${deviceId}`, {
-            payload:{
-              turn: state ? 'on': 'off'
-            }
-        }).then(data=>{
-          console.log(data)
-          self.$store.commit('ch_device', data.body)
-        });
+      state;
+      // const self = this;
+      // console.log(state)
+      // this.$http.put(`${config.server.urlSchema}://${config.server.host}:${config.server.port}`+
+      //     `/api/v1/devices/${deviceId}`, {
+      //       payload:{
+      //         turn: state ? 'on': 'off'
+      //       }
+      //   }).then(data=>{
+      //     console.log(data)
+      //     self.$store.commit('ch_device', data.body)
+      //   });
     }
   }
 }

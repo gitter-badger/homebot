@@ -97,7 +97,7 @@
 </template>
 
 <script>
-  import config from '../../config/dev'
+import deviceApi from './api/device'
 
   export default {
     name: 'App',
@@ -123,17 +123,17 @@
       user: {}
     }),
     created: function() {
-      const self = this;
-      this.$http.get(`${config.server.urlSchema}://${config.server.host}:${config.server.port}`+
-      `/api/v1/devices`).then(data => {
-        self.user.devices = data.body;
-        self.$store.commit('ch_user', self.user);
+      // const self = this;
+      deviceApi.getDevices()
+      // deviceApi.getDevices.then(data => {
+      //   self.user.devices = data.body;
+      //   self.$store.commit('ch_user', self.user);
 
-      }).catch(err => {
-        self.dialog.opened = true;
-        self.dialog.title = 'Error getting the token';
-        self.dialog.text = err; 
-      })
+      // }).catch(err => {
+      //   self.dialog.opened = true;
+      //   self.dialog.title = 'Error getting the token';
+      //   self.dialog.text = err; 
+      // })
     }
   }
 </script>
