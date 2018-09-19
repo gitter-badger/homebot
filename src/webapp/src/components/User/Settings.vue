@@ -68,7 +68,7 @@
 // import DeviceItem from './DeviceItem'
 
 export default {
-  name: 'Settings',
+  name: 'UserSettings',
   props: {
     
   },
