@@ -101,39 +101,41 @@ import deviceApi from './api/device'
 
   export default {
     name: 'App',
-    data: () => ({
-      navigation: {
-        opened: true,
-        items: [{
-          icon: 'phonelink',
-          text: 'Devices',
-          route: '/devices'
+    data: () => {
+      return {
+        navigation: {
+          opened: true,
+          items: [{
+            icon: 'phonelink',
+            text: 'Devices',
+            route: '/devices'
+          },
+          {
+            icon: 'settings',
+            text: 'Settings',
+            route: 'settings'
+          }]  
         },
-        {
-          icon: 'settings',
-          text: 'Settings',
-          route: 'settings'
-        }]  
-      },
-      dialog:{
-        opened: false,
-        title: '',
-        text: '',
-      },
-      user: {}
-    }),
+        dialog:{
+          opened: false,
+          title: '',
+          text: '',
+        },
+        user: {
+          devices: []
+        }
+      }
+    },
     created: function() {
-      // const self = this;
-      deviceApi.getDevices()
-      // deviceApi.getDevices.then(data => {
-      //   self.user.devices = data.body;
-      //   self.$store.commit('ch_user', self.user);
-
-      // }).catch(err => {
-      //   self.dialog.opened = true;
-      //   self.dialog.title = 'Error getting the token';
-      //   self.dialog.text = err; 
-      // })
+      const self = this;
+      deviceApi.getDevices().then(data => {
+        self.user.devices = data.data;
+        self.$store.commit('user/setUser', self.user);
+      }).catch(err => {
+        self.dialog.opened = true;
+        self.dialog.title = 'Error getting the token';
+        self.dialog.text = err; 
+      })
     }
   }
 </script>

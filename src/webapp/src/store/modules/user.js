@@ -4,16 +4,15 @@ import Vue from 'vue'
 // initial state
 const state = {
   token: '',
-  user: {}
+  devices: []
 }
 
 // getters
 const getters = {
-
   devices: state => {
-    if (state.user.devices){
-      let devices = []
-      state.user.devices.forEach((x) => {
+    if (state.devices){
+      let devices = [];
+      state.devices.forEach((x) => {
         devices.push({
           _id: x._id,
           name: x.name,
@@ -44,13 +43,13 @@ const mutations = {
   },
 
   setUser(state, data) {
-    state.user = data;
+    state.devices = data.devices;
   },
 
   setDevice(state, device) {
-    for (let i=0; i<state.user.devices.length; i++) {
-      if (state.user.devices[i]._id == device._id) {
-        Vue.set(state.user.devices, i, device)
+    for (let i=0; i<state.devices.length; i++) {
+      if (state.devices[i]._id == device._id) {
+        Vue.set(state.devices, i, device)
         break;
       }
     }
