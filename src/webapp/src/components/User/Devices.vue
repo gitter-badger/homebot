@@ -34,10 +34,10 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import deviceAPI from '../api/device'
+import deviceAPI from '../../api/device'
 
 export default {
-  name: 'Devices',
+  name: 'UserDevices',
   computed:{
     ...mapGetters({
       devices: 'user/devices'
@@ -47,7 +47,7 @@ export default {
     changeDevice: function(deviceId, state){
       const self = this;
       deviceAPI.changeDevice(deviceId, state).then(data=>{
-        self.$store.commit('user/setDevice', data.body);
+        self.$store.commit('user/setDevice', data.data);
       });
     }
   }

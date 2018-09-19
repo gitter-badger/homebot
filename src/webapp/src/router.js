@@ -1,7 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Settings from './components/Settings.vue'
-import Devices from './components/Devices.vue'
+
+import User from './components/User.vue'
+import UserSettings from './components/User/Settings.vue'
+import UserDevices from './components/User/Devices.vue'
+
+import Admin from './components/Admin.vue'
+import AdminUsers from './components/Admin/Users.vue'
+
 import NotFound from './components/NotFound.vue'
 
 Vue.use(Router)
@@ -10,21 +16,38 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/', redirect: '/devices',
-      name: 'Devices',
-      component: Devices
+      path: '/', component: User,
+      children: [
+        {
+          path: '',
+          redirect: 'devices'
+        },
+        {
+          path: 'devices', 
+          component: UserDevices
+        },
+        {
+          path: 'settings',
+          component: UserSettings
+        }
+      ]
     },
     {
-    path: '/devices',
-    name: 'Devices',
-    component: Devices
+      path: '/admin', component: Admin,
+      children: [
+        {
+          path: '',
+          redirect: 'users'
+        },
+        {
+          path: 'users',
+          component: AdminUsers
+        }
+      ]
     },
     {
-      path: '/settings',
-      name: 'Settings',
-      component: Settings
-    },
-    { path: '*', 
-    component: NotFound }
+      path: '*',
+      component: NotFound
+    }
   ]
 })
