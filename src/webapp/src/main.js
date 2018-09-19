@@ -7,13 +7,6 @@ import store from './store'
 
 Vue.config.productionTip = false
 
-// Vue.http.interceptors.push( ( request, next ) => {
-//   if (store.state.token){
-//     request.params['token'] = store.state.token;
-//   }
-//   next()
-// })
-
 new Vue({
   store,
   router,

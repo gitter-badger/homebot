@@ -1,13 +1,10 @@
 import Vue from 'vue'
-// import shop from '../../api/user'
 
-// initial state
 const state = {
   token: '',
   devices: []
 }
 
-// getters
 const getters = {
   devices: state => {
     if (state.devices){
@@ -31,11 +28,9 @@ const getters = {
   }
 }
 
-// actions
 const actions = {
 }
 
-// mutations
 const mutations = {
 
   setToken(state, data) {
